@@ -11,7 +11,6 @@ if __name__ == '__main__':
     arg_parser.add_argument('--url', type=str, help='recall url')
     args = arg_parser.parse_args()
     url = args.url
-    uid = args.uid
 
     for line in sys.stdin:
         uid, ts = line.strip().strip('\t')
