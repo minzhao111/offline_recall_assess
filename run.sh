@@ -9,7 +9,7 @@ if [[ ! -f ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER} ]]; then
 fi
 
 function cleanup() {
-    find /data/sim-pipeline/offline_recall_assess/recall_result/ -type f -mtime +7 -exec rm -rf {} \;
+    find /data/sim-pipeline/offline_recall_assess/recall_result/ -type f -mtime +3 -exec rm -rf {} \;
 }
 
 while true; do
@@ -25,10 +25,10 @@ while true; do
         echo "We have waited about $(($(TZ=UTC-8 date +%s) - end_call))s. Starting the next round."
         break
       else
-        cleanup # 如果不够5分钟, 则
         sleep 30s
       fi
     done
     echo -e "\n"
+    cleanup # 删除特别老的文件
 done
 
