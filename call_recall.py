@@ -26,4 +26,4 @@ if __name__ == '__main__':
         result = requests.get(url).json()
         logging.info(result)
         recall_docids = [vaule['docid'] for vaule in result['documents']]
-        print(line + '\t'.join(recall_docids))
+        print(f"{line}\t{' '.join(recall_docids)}")
