@@ -20,11 +20,11 @@ if __name__ == '__main__':
         if line in cache:  # 同一分钟, 假定召回结果不变，只记录一条召回结果即可
             continue
         line = line.strip()
-        logging.info(line)
+        # logging.info(line)
         cache.add(line)
         uid, ts = line.strip().split('\t')
         tmp_url = url + f"&uid={uid}"
         result = requests.get(tmp_url).json()
-        logging.info(f"{result}  {tmp_url}")
+        # logging.info(f"{result}  {tmp_url}")
         recall_docids = [vaule['docid'] for vaule in result['documents']]
         print(f"{line}\t{' '.join(recall_docids)}")
