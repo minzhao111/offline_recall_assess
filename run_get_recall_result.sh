@@ -30,5 +30,11 @@ while true; do
     done
     echo -e "\n"
     cleanup # 删除特别老的文件
+
+    # 文件攒够以后退出(默认是攒够一个小时的数据)
+    total_file_num=$(ls ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/*_uid_ts.txt | wc | awk '{print $1}')
+    if [[ $total_file_num -gt $TOTAL_NEED_FILE_NUM ]]; then
+      break
+    fi
 done
 
