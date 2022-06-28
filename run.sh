@@ -8,10 +8,14 @@ if [[ ! -f ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER} ]]; then
   mkdir ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}
 fi
 
+function cleanup() {
+    find /data/sim-pipeline/offline_recall_assess/recall_result/ -type f -mtime +7 -exec rm -rf {} \;
+}
+
 while true; do
     start=$(TZ=UTC-8 date +%s)
     five_mins_later=$(TZ=UTC-8 date -d '5 mins' +%s)
-    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 1000 --start $(TZ=UTC-8 date -d '-5 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_uid_ts.txt
+    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-5 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_uid_ts.txt
     end_fetch=$(TZ=UTC-8 date +%s)
     cat ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_uid_ts.txt | python ${SCRIPT_ROOT_DIR}/call_recall.py --url ${RECALL_URL} > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_recall_result.txt
     end_call=$(TZ=UTC-8 date +%s)
@@ -21,6 +25,7 @@ while true; do
         echo "We have waited about $(($(TZ=UTC-8 date +%s) - end_call))s. Starting the next round."
         break
       else
+        cleanup # 如果不够5分钟, 则
         sleep 30s
       fi
     done
