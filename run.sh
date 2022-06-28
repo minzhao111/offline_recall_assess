@@ -16,14 +16,14 @@ while true; do
     cat ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_uid_ts.txt | python ${SCRIPT_ROOT_DIR}/call_recall.py --url ${RECALL_URL} > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_recall_result.txt
     end_call=$(TZ=UTC-8 date +%s)
     echo "Now time is $(TZ=UTC-8 date '+%Y-%m-%d %H:%M:%S'), fetch_requests cost time is $((end_fetch-start))s, call_recall cost time is $((end_call-end_fetch))s"
-    echo -e "\n"
     while true; do
       if [[ $(TZ=UTC-8 date +%s) -gt five_mins_later ]]; then
-        echo "Before start the next round, we wait about $(($(TZ=UTC-8 date +%s) - end_call))s"
+        echo "We have waited about $(($(TZ=UTC-8 date +%s) - end_call))s. Starting the next round."
         break
       else
         sleep 30s
       fi
     done
+    echo -e "\n"
 done
 
