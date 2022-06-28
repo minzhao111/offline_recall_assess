@@ -84,8 +84,8 @@ def parse_curl(curl_command):
 
     url, params = parse_query(args.url)
     if 'limit' in params:
-        # params['limit'] = 10 ** 5 # fetch as many as possible
-        params['limit'] = 10000 # fetch as many as possible
+        params['limit'] = 10 ** 5 # fetch as many as possible
+        # params['limit'] = 10000 # fetch as many as possible
 
     return url, params, headers, cookies
 
