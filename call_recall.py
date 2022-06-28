@@ -35,7 +35,7 @@ if __name__ == '__main__':
         cache.add(line)
         uid, nb_req_id = line.strip().split('\t')
         tmp_url = url + f"&uid={uid}"
-        future = executor.submit(thread_func, line=line, url=url)
+        future = executor.submit(thread_func, line=line, url=tmp_url)
         future_list.append(future)
     for future in as_completed(future_list):
         data = future.result()
