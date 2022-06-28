@@ -19,6 +19,7 @@ if __name__ == '__main__':
     for line in sys.stdin:
         if line in cache:  # 同一分钟, 假定召回结果不变，只记录一条召回结果即可
             continue
+        line = line.strip()
         logging.info(line)
         cache.add(line)
         uid, ts = line.strip().split('\t')
