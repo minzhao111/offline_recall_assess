@@ -14,15 +14,15 @@ function cleanup() {
 
 while true; do
     start=$(TZ=UTC-8 date +%s)
-    one_mins_later=$(TZ=UTC-8 date -d '1 mins' +%s)
-    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-1 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
+    few_mins_later=$(TZ=UTC-8 date -d '3 mins' +%s)
+    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-3 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
     end_fetch=$(TZ=UTC-8 date +%s)
     cat ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt | python ${SCRIPT_ROOT_DIR}/call_recall.py --url ${RECALL_URL} > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_recall_result.txt
     end_call=$(TZ=UTC-8 date +%s)
     echo "Now time is $(TZ=UTC-8 date '+%Y-%m-%d %H:%M:%S'), fetch_requests cost time is $((end_fetch-start))s, call_recall cost time is $((end_call-end_fetch))s"
     rm ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
     while true; do
-      if [[ $(TZ=UTC-8 date +%s) -gt one_mins_later ]]; then
+      if [[ $(TZ=UTC-8 date +%s) -gt few_mins_later ]]; then
         echo "We have waited about $(($(TZ=UTC-8 date +%s) - end_call))s. Starting the next round."
         break
       else
