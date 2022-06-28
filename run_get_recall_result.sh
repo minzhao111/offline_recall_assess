@@ -15,11 +15,12 @@ function cleanup() {
 while true; do
     start=$(TZ=UTC-8 date +%s)
     one_mins_later=$(TZ=UTC-8 date -d '1 mins' +%s)
-    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-1 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_uid_ts.txt
+    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-1 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
     end_fetch=$(TZ=UTC-8 date +%s)
-    cat ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_uid_ts.txt | python ${SCRIPT_ROOT_DIR}/call_recall.py --url ${RECALL_URL} > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_recall_result.txt
+    cat ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt | python ${SCRIPT_ROOT_DIR}/call_recall.py --url ${RECALL_URL} > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_recall_result.txt
     end_call=$(TZ=UTC-8 date +%s)
     echo "Now time is $(TZ=UTC-8 date '+%Y-%m-%d %H:%M:%S'), fetch_requests cost time is $((end_fetch-start))s, call_recall cost time is $((end_call-end_fetch))s"
+    rm ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
     while true; do
       if [[ $(TZ=UTC-8 date +%s) -gt one_mins_later ]]; then
         echo "We have waited about $(($(TZ=UTC-8 date +%s) - end_call))s. Starting the next round."
@@ -32,7 +33,7 @@ while true; do
     cleanup # 删除特别老的文件
 
     # 文件攒够以后退出(默认是攒够一个小时的数据)
-    total_file_num=$(ls ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/*_uid_ts.txt | wc | awk '{print $1}')
+    total_file_num=$(ls ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/*uid_reqid.txt | wc | awk '{print $1}')
     if [[ $total_file_num -gt $TOTAL_NEED_FILE_NUM ]]; then
       break
     fi
