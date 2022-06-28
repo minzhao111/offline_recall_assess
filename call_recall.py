@@ -22,7 +22,7 @@ if __name__ == '__main__':
         line = line.strip()
         # logging.info(line)
         cache.add(line)
-        uid, ts = line.strip().split('\t')
+        uid, nb_req_id = line.strip().split('\t')
         tmp_url = url + f"&uid={uid}"
         result = requests.get(tmp_url).json()
         # logging.info(f"{result}  {tmp_url}")

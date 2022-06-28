@@ -111,8 +111,8 @@ def fetch(start, end, limit, url, params, headers, cookies, filter=None):
                         query_parsed = parse.unquote(query)
                         # print(query_parsed)
                         uid = re.findall('userid=(\d+)', query_parsed)[0]
-                        ts = re.findall('ts=(\d{4}-\d{2}-\d{2}\W\d{2}:\d{2})', query_parsed)[0]
-                        print(f'{uid}\t{ts}') # 输入uid ts，后续将基于此进行请求
+                        nb_req_id = re.findall('nb_req_id=(\w+)', query_parsed)[0]
+                        print(f'{uid}\t{nb_req_id}') # 输入uid nb_req_id，后续将基于此进行请求
                     except Exception as e:
                         logging.info(f"parse {query} failed, the exception is {e}")
 
