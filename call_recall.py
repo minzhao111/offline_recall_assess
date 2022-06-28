@@ -22,8 +22,8 @@ if __name__ == '__main__':
         logging.info(line)
         cache.add(line)
         uid, ts = line.strip().split('\t')
-        url = url + f"&={uid}"
-        result = requests.get(url).json()
-        logging.info(result)
+        tmp_url = url + f"&={uid}"
+        result = requests.get(tmp_url).json()
+        logging.info(f"{result}  {tmp_url}")
         recall_docids = [vaule['docid'] for vaule in result['documents']]
         print(f"{line}\t{' '.join(recall_docids)}")
