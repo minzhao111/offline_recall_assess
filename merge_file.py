@@ -3,6 +3,11 @@
 
 import argparse
 import sys
+import logging
+
+logging.basicConfig(
+    format='%(asctime)s : %(levelname)s : %(message)s',
+    level=logging.INFO)
 
 def main():
     arg_parser = argparse.ArgumentParser()
@@ -15,11 +20,14 @@ def main():
     output_file_io = open(args.output_file, 'w')
     for file in open(args.input_files):
         for line in open(file.strip()):
-            uid, req_id, recall_docs = line.strip().split('\t')
-            if req_id in req_id:
-                continue
-            req_id_set.add(req_id)
-            output_file_io.write(line)
+            try:
+                uid, req_id, recall_docs = line.strip().split('\t')
+                if req_id in req_id:
+                    continue
+                req_id_set.add(req_id)
+                output_file_io.write(line)
+            except Exception as e:
+                logging.info(f"Process {line} failed, the error is {e}")
 
 
 if __name__ == '__main__':
