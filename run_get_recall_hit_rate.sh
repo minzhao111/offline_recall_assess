@@ -19,6 +19,7 @@ function merge_test_recall_result() {
       cat $file >> $merge_file
     done
     scp -oStrictHostKeyChecking=no -i ${PEM_FILE} $merge_file services@${HADOOP_IP}:${HADOOP_DATA_PATH}
+    ssh -oStrictHostKeyChecking=no -i ${PEM_FILE} services@${HADOOP_IP} "cd ${HADOOP_DATA_PATH} && hadoop fs -rm ${MERGED_TEST_FILE_NAME}"
     ssh -oStrictHostKeyChecking=no -i ${PEM_FILE} services@${HADOOP_IP} "cd ${HADOOP_DATA_PATH} && hadoop fs -put ${MERGED_TEST_FILE_NAME} ${HADOOP_UPLOAD_PATH}"
     # 等文件拷贝过去以后, 在hue中执行命令建表, 命令参考以下：
     # "CREATE EXTERNAL TABLE temp.zhaomin_test_reqid (user_id INTEGER, req_id STRING, recall_docs STRING) row format delimited fields terminated by '\t' stored as TEXTFILE LOCATION 's3a://hdfs.bak/us/user/services/zhaomin/'"
