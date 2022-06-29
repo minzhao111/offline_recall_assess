@@ -22,7 +22,7 @@ while true; do
     echo "Now time is $(TZ=UTC-8 date '+%Y-%m-%d %H:%M:%S'), fetch_requests cost time is $((end_fetch-start))s, call_recall cost time is $((end_call-end_fetch))s"
     rm ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
     while true; do
-      if [[ $(TZ=UTC-8 date +%s) -gt few_mins_later ]]; then
+      if [[ $(TZ=UTC-8 date +%s) -gt $few_mins_later ]]; then
         echo "We have waited about $(($(TZ=UTC-8 date +%s) - end_call))s. Starting the next round."
         break
       else
