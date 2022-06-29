@@ -14,8 +14,8 @@ function cleanup() {
 
 while true; do
     start=$(TZ=UTC-8 date +%s)
-    few_mins_later=$(TZ=UTC-8 date -d '3 mins' +%s)
-    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-3 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
+    few_mins_later=$(TZ=UTC-8 date -d '5 mins' +%s)
+    python ${SCRIPT_ROOT_DIR}/fetch_requests.py --limit 100000 --start $(TZ=UTC-8 date -d '-5 mins' +%s) > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt
     end_fetch=$(TZ=UTC-8 date +%s)
     cat ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}uid_reqid.txt | python ${SCRIPT_ROOT_DIR}/call_recall.py --url ${RECALL_URL} > ${SCRIPT_ROOT_DIR}/${RECALL_RESULT_FOLDER}/${start}_recall_result.txt
     end_call=$(TZ=UTC-8 date +%s)
