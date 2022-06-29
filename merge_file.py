@@ -22,7 +22,7 @@ def main():
         for line in open(file.strip()):
             try:
                 uid, req_id, recall_docs = line.strip().split('\t')
-                if req_id in req_id:
+                if req_id in req_id_set:
                     continue
                 req_id_set.add(req_id)
                 output_file_io.write(line)
