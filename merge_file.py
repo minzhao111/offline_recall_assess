@@ -20,3 +20,7 @@ def main():
                 continue
             req_id_set.add(req_id)
             output_file_io.write(line)
+
+
+if __name__ == '__main__':
+    main()
